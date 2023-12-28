@@ -1,7 +1,7 @@
 ---
 - hosts: jenkins
   become: yes
-  remote_user: ec2-user
+  remote_user: ubuntu
   become_user: root
   tasks:
   - name: Download Long Term Jenkins release
@@ -24,17 +24,17 @@
       enabled: yes
 
   - name: dnf update
-    ansible.builtin.dnf:
+    ansible.builtin.apt:
       name: '*'
       state: latest
 
   - name: Install java
-    dnf:
+    apt:
       name: java-11-amazon-corretto-headless
       state: present
 
   - name: Install jenkins
-    dnf:
+    apt:
       name: jenkins
       state: latest
 
@@ -47,7 +47,7 @@
       name: jenkins
       state: started
   - name: Install required packages
-    dnf:
+    apt:
       name:
         - yum-utils
         - device-mapper-persistent-data
@@ -67,7 +67,7 @@
     command: "usermod -aG docker jenkins"
 
   - name: Add Docker repository
-    command: "docker login -u saidamo -p sairam2127!" 
+    command: "docker login -u janakiraman276 -p #Jani$1991" 
     
   - name: mkdir
     command: "mkdir /var/lib/jenkins/.docker" 
@@ -75,6 +75,6 @@
   - name: copy
     command: "cp $HOME/.docker/config.json /var/lib/jenkins/.docker/config.json"
     
-  - name: mkdir
+  - name: chown 
     command: "chown -R jenkins:jenkins /var/lib/jenkins/.docker" 
   

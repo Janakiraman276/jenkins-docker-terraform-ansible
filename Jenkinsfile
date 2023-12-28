@@ -9,22 +9,17 @@ pipeline {
         }
       }
     }
-    stage('Building Docker Image') {
-      steps{
-        script {
-          sh "docker build -t saidamo/cicd-poc-jenkins-ansible:$BUILD_NUMBER ."
+    stage("Docker Build & Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
+                       sh "docker build -t cicd-poc-jenkins-ansible"
+                       sh "docker tag cafe-shop janakiraman276/cafe-shop:$BUILD_NUMBER "
+                       sh "docker push janakiraman276/cafe-shop:$BUILD_NUMBER "
+                    }
+                }
+            }
         }
-      }
-    }
-    stage('Push Image To Docker Hub') {
-      steps{
-        script {
-          sh "echo $USER"
-          sh "docker login -u saidamo -p sairam2127!"
-          sh "docker push saidamo/cicd-poc-jenkins-ansible:$BUILD_NUMBER"
-          }
-        }
-      }
     }
 }
 
