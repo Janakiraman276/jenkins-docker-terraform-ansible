@@ -1,7 +1,7 @@
 ---
 - hosts: jenkins
   become: yes
-  remote_user: ubuntu
+  remote_user: ec2-user
   become_user: root
   tasks:
   - name: Download Long Term Jenkins release
@@ -24,17 +24,17 @@
       enabled: yes
 
   - name: dnf update
-    ansible.builtin.apt:
+    ansible.builtin.dnf:
       name: '*'
       state: latest
 
   - name: Install java
-    apt:
+    dnf:
       name: java-11-amazon-corretto-headless
       state: present
 
   - name: Install jenkins
-    apt:
+    dnf:
       name: jenkins
       state: latest
 
@@ -47,7 +47,7 @@
       name: jenkins
       state: started
   - name: Install required packages
-    apt:
+    dnf:
       name:
         - yum-utils
         - device-mapper-persistent-data
