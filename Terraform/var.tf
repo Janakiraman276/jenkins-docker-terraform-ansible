@@ -32,7 +32,7 @@ variable "number_of_instances" {
 
 
 variable "ami_key_pair_name" {
-        default = "RDSEC2"
+        default = "linux"
 }
 
 variable "vpc_id" {
